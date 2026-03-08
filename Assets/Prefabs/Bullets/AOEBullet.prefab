@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 649129362324634716}
   - component: {fileID: 3976489436786989428}
   - component: {fileID: 3952970779750175860}
-  - component: {fileID: -3126318975932678084}
+  - component: {fileID: 1416636262061748560}
   m_Layer: 0
   m_Name: AOEBullet
   m_TagString: Untagged
@@ -103,10 +103,10 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 136
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 119
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -141,7 +141,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &-3126318975932678084
+--- !u!114 &1416636262061748560
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,4 +154,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Purple
   speed: 3
-  bulletDamage: 10
+  bulletDamage: 0
+  materialAOE: {fileID: 2100000, guid: 6f268087c3ed96f42b2b7ed60706bffb, type: 2}

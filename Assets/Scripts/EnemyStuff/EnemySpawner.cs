@@ -5,8 +5,9 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject[] enemy;
     [SerializeField] float spawnRate;
-    float timer = 3;
-    int enemySpawned = 0;
+    [SerializeField] float shortenSpawn = 1f; //valore di accorciamento spawnrate
+    float timer = 3; //così non passano 10 secondi prima di spawnare il primo nemico quando inizi un nuovo game
+    int enemySpawned = 0; //counter dei nemici spawnati a ogni giro di boa
 
 
     public static event Action EnemyBuff;
@@ -14,7 +15,9 @@ public class EnemySpawner : MonoBehaviour
     {
 
         timer += Time.deltaTime;
-        if (spawnRate <= 2) spawnRate = 2; //cap di spawn a 2 secondi
+        if (spawnRate <= 1) spawnRate = 1; //cap di spawn a 1 secondo
+                                           //(l'avevo fatto prima di recuperare la lezione e quindi non l'ho fatto come visto in classe ma mi piaceva così),
+                                           //e almeno facendo così i nemici continuano a buffarsi all'infinito
 
         if (timer >= spawnRate) //spwana randomicamente un nemico all'interno della lista in inspector
         {
@@ -28,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemySpawned >= 10)
         {
-            spawnRate--;
+            spawnRate -= shortenSpawn;
             EnemyBuff?.Invoke(); //si collega al GameManager per aumentare i danni dei nemici
             enemySpawned = 0;
             return;

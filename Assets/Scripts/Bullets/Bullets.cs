@@ -1,22 +1,28 @@
 using UnityEngine;
 
-public class Bullets : MonoBehaviour // ,  IBullets
+public abstract class Bullets : MonoBehaviour
 {
     [SerializeField] float speed;
-    [SerializeField] int bulletDamage;
-    Rigidbody rb;
+    
+     public int bulletDamage;
+   public Rigidbody rb;
+    Turrets turret;
 
-
-    private void OnEnable()
+   
+    public virtual void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
+        turret = GetComponentInParent<Turrets>();
         rb.AddForce(transform.forward *  speed, ForceMode.Impulse);
+        bulletDamage = turret.damage; //prende il danno assegnato alla torre, so che non servirebbe e basterebbe chiamare solo la seconda poi
+                                      //"TakeDamage(turret.damag)", ma ormai mi ero affezionato, e preferisco evitare di fare casini togliendolo
     }
     
-    private void OnCollisionEnter(Collision collision)
+    public virtual void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.TryGetComponent<IEnemy>(out IEnemy enemy))
         {
+            
             enemy.TakeDamage(bulletDamage);
             
         }
@@ -28,15 +34,9 @@ public class Bullets : MonoBehaviour // ,  IBullets
         }
     }
 
-    //public void Damage(int damage)
-    //{
-    //    throw new System.NotImplementedException();
-    //}
+    
 
-    //public void Despawn()
-    //{
-    //    throw new System.NotImplementedException();
-    //}
+  
 
 
 }

@@ -9,20 +9,20 @@ public class Enemy : MonoBehaviour, IEnemy
     [SerializeField] int points;
     public int currentHealth;
 
-    public static event Action <int> OnDamageDeal;
-    public static event Action <int> SetScore;
+    public static event Action <int> OnDamageDeal; //quando colpisce la base
+    public static event Action <int> SetScore; //soldi sulla morte
 
     Rigidbody rb;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        currentHealth = maxHealth;
     }
 
     private void OnEnable()
     {
-        damage += GameManager.instance.enemyTotalAddedDamage;
-        
+        damage += GameManager.instance.enemyTotalAddedDamage; //prende riferimento al buff del danno e della vita attuali
+        maxHealth *= GameManager.instance.maxHealthMultiplier;
+        currentHealth = maxHealth;
     }
 
     private void FixedUpdate()
@@ -57,12 +57,17 @@ public class Enemy : MonoBehaviour, IEnemy
     {
         damage = hitDamage;
         OnDamageDeal?.Invoke(damage); //evento che si collega al GameManager per gestire la vita
+        GameManager.instance.passedEnemies++; //aumenta il counter dei nemici passati
         Debug.Log(damage);
     }
 
     public void TakeDamage(int bulletDamage)
     {
         currentHealth -= bulletDamage;
-        if (currentHealth <= 0) Despawn();
+        if (currentHealth <= 0)
+        {
+            GameManager.instance.defeatedEnemies++; //aumenta il counter dei nemici
+            Despawn();
+        }
     }
 }
